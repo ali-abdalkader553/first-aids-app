@@ -1,18 +1,14 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
-
   @override
   State<LoginPage> createState() => _LoginScreenstate();
 }
 
-class _LoginScreenstate extends State<LoginPage>
-{
+class _LoginScreenstate extends State<LoginPage> {
   final _emailControlar = TextEditingController();
   final _passwordControlar = TextEditingController();
 
@@ -24,15 +20,13 @@ class _LoginScreenstate extends State<LoginPage>
   }
 
   @override
-  void dispos(){
+  void dispos() {
     super.dispose();
     _emailControlar.dispose();
     _passwordControlar.dispose();
   }
 
   @override
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.redAccent,
@@ -73,7 +67,6 @@ class _LoginScreenstate extends State<LoginPage>
                       labelText: 'Uesr Name',
                     ),
                   ),
-
                 ),
               ),
             ),
@@ -101,7 +94,6 @@ class _LoginScreenstate extends State<LoginPage>
                       labelText: 'Password',
                     ),
                   ),
-
                 ),
               ),
             ),
@@ -119,7 +111,11 @@ class _LoginScreenstate extends State<LoginPage>
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 child: GestureDetector(
-                  onTap: signIn,
+                  onTap: () async {
+                    await signIn();
+
+                    Navigator.pop(context);
+                  },
                   child: const Center(
                     child: Text(
                       'login',
@@ -156,4 +152,3 @@ class _LoginScreenstate extends State<LoginPage>
     );
   }
 }
-

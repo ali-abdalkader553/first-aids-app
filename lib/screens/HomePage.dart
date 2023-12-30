@@ -1,9 +1,9 @@
+import 'package:first_aids_app_pro1/screens/LoginPage.dart';
 import 'package:flutter/material.dart';
+
 import 'CommonDiseasesPage.dart';
 import 'EmergencyNumbersPage.dart';
 import 'FirstAidsPage.dart';
-
-
 
 class HomePage extends StatelessWidget {
   @override
@@ -12,7 +12,14 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home Page'),
         backgroundColor: Colors.deepOrangeAccent,
-
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
+              icon: const Icon(Icons.account_box)),
+        ],
       ),
       body: Center(
         child: Column(
@@ -25,7 +32,8 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const FirstAidPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const FirstAidPage()),
                   );
                 },
                 child: Container(
@@ -37,7 +45,6 @@ class HomePage extends StatelessWidget {
                     child: Text(
                       'First Aids',
                       style: TextStyle(color: Colors.white),
-
                     ),
                   ),
                 ),
@@ -51,7 +58,8 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const EmergencyNumberPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const EmergencyNumberPage()),
                   );
                 },
                 child: Container(
@@ -76,7 +84,8 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CommonDiseasesPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const CommonDiseasesPage()),
                   );
                 },
                 child: Container(
@@ -94,25 +103,23 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-
             Container(
-              width :250, height :50,
+              width: 250,
+              height: 50,
               child: InkWell(
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage()  ),
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 },
                 child: Container(
-                  decoration:BoxDecoration(
-                      color:Colors.purple,
-                      borderRadius: BorderRadius.circular(10)
-                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             )
-
           ],
         ),
       ),
