@@ -124,56 +124,6 @@ class CommonDiseasesPage extends StatelessWidget {
                             )))
                   ],
                 ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 150,
-                      height: 150,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DiseasesExplanations()),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text('Button 3',
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 20),
-                    Container(
-                        width: 150,
-                        height: 150,
-                        child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DiseasesExplanations()),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: Text('Button 4',
-                                      style: TextStyle(color: Colors.white))),
-                            )))
-                  ],
-                ),
               ],
             ),
           ),
