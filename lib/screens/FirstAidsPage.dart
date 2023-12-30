@@ -74,78 +74,74 @@ class _FirstAidPageState extends State<FirstAidPage> {
               child: CircularProgressIndicator(),
             )
           : Wrap(
-              children: [
-                ...(firstaidsdata.map((e) {
-                  if (_searchController.text.isNotEmpty) {
-                    if (!(e['name'] as String)
-                        .contains(_searchController.text)) {
-                      return const SizedBox(
-                        width: 0,
-                        height: 0,
-                      );
-                    }
+              children: (firstaidsdata.map((e) {
+                if (_searchController.text.isNotEmpty) {
+                  if (!(e['name'] as String).contains(_searchController.text)) {
+                    return const SizedBox(
+                      width: 0,
+                      height: 0,
+                    );
                   }
-                  return Container(
-                    width: MediaQuery.sizeOf(context).width * 0.5,
-                    height: MediaQuery.sizeOf(context).width * 0.5,
-                    child: InkWell(
-                      onLongPress: () {
-                        if (FirebaseAuth.instance.currentUser != null) {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.warning,
-                            animType: AnimType.rightSlide,
-                            title: "error",
-                            desc: 'What do you wont to do?',
-                            btnCancelText: "delete",
-                            btnOkText: "update",
-                            btnCancelOnPress: () async {
-                              await FirebaseFirestore.instance
-                                  .collection("first-aids")
-                                  .doc(e.id)
-                                  .delete();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FirstAidPage()));
-                            },
-                            btnOkOnPress: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Edit_First_Aids(
-                                          docid: e.id, oldname: e['name'])));
-                            },
-                          ).show();
-                        }
-                      },
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    DataStateOfExplanations(firstaidid: e.id)));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "${e['name']}",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
+                }
+                return Container(
+                  width: MediaQuery.sizeOf(context).width * 0.5,
+                  height: MediaQuery.sizeOf(context).width * 0.5,
+                  child: InkWell(
+                    onLongPress: () {
+                      if (FirebaseAuth.instance.currentUser != null) {
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.warning,
+                          animType: AnimType.rightSlide,
+                          title: "error",
+                          desc: 'What do you wont to do?',
+                          btnCancelText: "delete",
+                          btnOkText: "update",
+                          btnCancelOnPress: () async {
+                            await FirebaseFirestore.instance
+                                .collection("first-aids")
+                                .doc(e.id)
+                                .delete();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FirstAidPage()));
+                          },
+                          btnOkOnPress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Edit_First_Aids(
+                                        docid: e.id, oldname: e['name'])));
+                          },
+                        ).show();
+                      }
+                    },
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DataStateOfExplanations(firstaidid: e.id)));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "${e['name']}",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
                       ),
                     ),
-                  );
-                }).toList())
-              ],
+                  ),
+                );
+              }).toList()),
             ),
     );
   }
