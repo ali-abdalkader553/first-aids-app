@@ -14,6 +14,9 @@ class FirstAidPage extends StatefulWidget {
 
 class _FirstAidPageState extends State<FirstAidPage> {
   List<QueryDocumentSnapshot> firstaidsdata = [];
+  bool isSearchOn = false;
+
+  TextEditingController _searchController = TextEditingController();
 
   bool isloading = true;
 
@@ -32,6 +35,9 @@ class _FirstAidPageState extends State<FirstAidPage> {
   void initState() {
     // TODO: implement initState
     getData();
+    _searchController.addListener(() {
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -51,9 +57,15 @@ class _FirstAidPageState extends State<FirstAidPage> {
             ),
       appBar: AppBar(
         backgroundColor: Colors.deepOrangeAccent,
-        title: Text('First Aids'),
+        title: isSearchOn
+            ? TextField(controller: _searchController)
+            : Text('First Aids'),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              isSearchOn = !isSearchOn;
+            });
+          },
           icon: const Icon(Icons.search),
         ),
       ),
@@ -61,71 +73,79 @@ class _FirstAidPageState extends State<FirstAidPage> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : GridView.builder(
-              itemCount: firstaidsdata.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, mainAxisExtent: 160),
-              itemBuilder: (context, i) {
-                return Container(
-                  width: 125,
-                  height: 125,
-                  child: InkWell(
-                    onLongPress: () {
-                      if (FirebaseAuth.instance.currentUser != null) {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.warning,
-                          animType: AnimType.rightSlide,
-                          title: "error",
-                          desc: 'What do you wont to do?',
-                          btnCancelText: "delete",
-                          btnOkText: "update",
-                          btnCancelOnPress: () async {
-                            await FirebaseFirestore.instance
-                                .collection("first-aids")
-                                .doc(firstaidsdata[i].id)
-                                .delete();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FirstAidPage()));
-                          },
-                          btnOkOnPress: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Edit_First_Aids(
-                                        docid: firstaidsdata[i].id,
-                                        oldname: firstaidsdata[i]['name'])));
-                          },
-                        ).show();
-                      }
-                    },
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DataStateOfExplanations(
-                                  firstaidid: firstaidsdata[i].id)));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "${firstaidsdata[i]['name']}",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+          : Wrap(
+              children: [
+                ...(firstaidsdata.map((e) {
+                  if (_searchController.text.isNotEmpty) {
+                    if (!(e['name'] as String)
+                        .contains(_searchController.text)) {
+                      return const SizedBox(
+                        width: 0,
+                        height: 0,
+                      );
+                    }
+                  }
+                  return Container(
+                    width: MediaQuery.sizeOf(context).width * 0.5,
+                    height: MediaQuery.sizeOf(context).width * 0.5,
+                    child: InkWell(
+                      onLongPress: () {
+                        if (FirebaseAuth.instance.currentUser != null) {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.warning,
+                            animType: AnimType.rightSlide,
+                            title: "error",
+                            desc: 'What do you wont to do?',
+                            btnCancelText: "delete",
+                            btnOkText: "update",
+                            btnCancelOnPress: () async {
+                              await FirebaseFirestore.instance
+                                  .collection("first-aids")
+                                  .doc(e.id)
+                                  .delete();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FirstAidPage()));
+                            },
+                            btnOkOnPress: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Edit_First_Aids(
+                                          docid: e.id, oldname: e['name'])));
+                            },
+                          ).show();
+                        }
+                      },
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DataStateOfExplanations(firstaidid: e.id)));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${e['name']}",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                }).toList())
+              ],
             ),
     );
   }
