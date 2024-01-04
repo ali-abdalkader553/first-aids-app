@@ -107,12 +107,14 @@ class _DataStateOfExplanations extends State<DataStateOfExplanations> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        child: Center(
-                          child: Text(
+                        child: Column(children: [
+                          Text(
                             "${firstaidsdata[i]['explanation']}",
                             style: TextStyle(color: Colors.black, fontSize: 20),
                           ),
-                        ),
+                          if (firstaidsdata[i]['url'] != "none")
+                            Image.network(firstaidsdata[i]['url']),
+                        ]),
                       ),
                     ),
                   ),
