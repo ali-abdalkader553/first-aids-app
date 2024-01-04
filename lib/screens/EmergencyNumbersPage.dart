@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../Content management/Edit_First_Aids.dart';
@@ -37,15 +38,17 @@ class _EmergencyNumberPageState extends State<EmergencyNumberPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.redAccent,
-        onPressed: () {
-          Navigator.of(context).pushNamed("addnumber").whenComplete(() {
-            getData();
-          });
-        },
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: FirebaseAuth.instance.currentUser == null
+          ? null
+          : FloatingActionButton(
+              backgroundColor: Colors.redAccent,
+              onPressed: () {
+                Navigator.of(context).pushNamed("addnumber").whenComplete(() {
+                  getData();
+                });
+              },
+              child: Icon(Icons.add),
+            ),
       appBar: AppBar(
         backgroundColor: Colors.deepOrangeAccent,
         title: const Text('Emergency Number'),
@@ -64,33 +67,36 @@ class _EmergencyNumberPageState extends State<EmergencyNumberPage> {
                   height: 125,
                   child: InkWell(
                     onLongPress: () {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.warning,
-                        animType: AnimType.rightSlide,
-                        title: "error",
-                        desc: 'What do you wont to do?',
-                        btnCancelText: "delete",
-                        btnOkText: "update",
-                        btnCancelOnPress: () async {
-                          await FirebaseFirestore.instance
-                              .collection("emergency-number")
-                              .doc(emergencynum[i].id)
-                              .delete();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EmergencyNumberPage()));
-                        },
-                        btnOkOnPress: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Edit_First_Aids(
-                                      docid: '',
-                                      oldname: emergencynum[i]['name'])));
-                        },
-                      ).show();
+                      if (FirebaseAuth.instance.currentUser != null) {
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.warning,
+                          animType: AnimType.rightSlide,
+                          title: "error",
+                          desc: 'What do you wont to do?',
+                          btnCancelText: "delete",
+                          btnOkText: "update",
+                          btnCancelOnPress: () async {
+                            await FirebaseFirestore.instance
+                                .collection("emergency-number")
+                                .doc(emergencynum[i].id)
+                                .delete();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EmergencyNumberPage()));
+                          },
+                          btnOkOnPress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Edit_First_Aids(
+                                        docid: '',
+                                        oldname: emergencynum[i]['name'])));
+                          },
+                        ).show();
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

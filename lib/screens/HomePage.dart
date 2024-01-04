@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_aids_app_pro1/screens/LoginPage.dart';
 import 'package:flutter/material.dart';
 
@@ -8,17 +9,31 @@ import 'FirstAidsPage.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    signout() {
+      FirebaseAuth.instance.signOut();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
         backgroundColor: Colors.deepOrangeAccent,
         actions: [
           IconButton(
+              color: Colors.deepOrangeAccent,
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const LoginPage()));
               },
               icon: const Icon(Icons.account_box)),
+          SizedBox(width: 5),
+          IconButton(
+              color: Colors.deepOrangeAccent,
+              onPressed: () {
+                signout();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              },
+              icon: const Icon(Icons.refresh)),
         ],
       ),
       body: Center(
