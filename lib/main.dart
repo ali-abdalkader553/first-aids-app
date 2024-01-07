@@ -1,11 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_aids_app_pro1/Content%20management/Add_First_Aids.dart';
 import 'package:first_aids_app_pro1/Content%20management/Add_Number.dart';
 import 'package:first_aids_app_pro1/Content%20management/Add_explanation.dart';
 import 'package:first_aids_app_pro1/screens/HomePage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -22,12 +22,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: HomePage(),
       routes: {
-        "addfirstaid":(context)=> Add_First_Aids(),
-        "addnumber":(context)=> Add_Number(),
-        "addexplanation":(context)=> Add_Explanation(docid:'widget.docid',),
+        "addfirstaid": (context) => Add_First_Aids(),
+        "addnumber": (context) => Add_Number(),
+        "addexplanation": (context) => Add_Explanation(
+              docid: 'widget.docid',
+            ),
       },
-
-
     );
   }
 }

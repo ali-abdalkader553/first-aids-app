@@ -1,9 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_aids_app_pro1/Content%20management/Edit_Number.dart';
 import 'package:flutter/material.dart';
-
-import '../Content management/Edit_First_Aids.dart';
 
 class EmergencyNumberPage extends StatefulWidget {
   const EmergencyNumberPage({Key? key}) : super(key: key);
@@ -91,9 +90,11 @@ class _EmergencyNumberPageState extends State<EmergencyNumberPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Edit_First_Aids(
-                                        docid: '',
-                                        oldname: emergencynum[i]['name'])));
+                                    builder: (context) => Edit_Number(
+                                          docid: emergencynum[i].id,
+                                          oldname: emergencynum[i]['name'],
+                                          oldnumber: emergencynum[i]['number'],
+                                        )));
                           },
                         ).show();
                       }

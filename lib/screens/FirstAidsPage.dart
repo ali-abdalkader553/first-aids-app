@@ -106,6 +106,8 @@ class _FirstAidPageState extends State<FirstAidPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => FirstAidPage()));
+                            // MaterialPageRoute(
+                            //     builder: (context) => FirstAidPage()));
                           },
                           btnOkOnPress: () {
                             Navigator.push(

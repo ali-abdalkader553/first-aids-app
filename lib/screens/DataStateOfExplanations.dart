@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_aids_app_pro1/Content%20management/Edit_First_Aids.dart';
+import 'package:first_aids_app_pro1/Content%20management/Edit_Explanations.dart';
 import 'package:flutter/material.dart';
 
 import '../Content management/Add_explanation.dart';
@@ -66,55 +66,58 @@ class _DataStateOfExplanations extends State<DataStateOfExplanations> {
           : GridView.builder(
               itemCount: firstaidsdata.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, mainAxisExtent: 160),
+                  crossAxisCount: 1, mainAxisExtent: 300),
               itemBuilder: (context, i) {
-                return Container(
-                  child: InkWell(
-                    onLongPress: () {
-                      if (FirebaseAuth.instance.currentUser != null) {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.warning,
-                          animType: AnimType.rightSlide,
-                          title: "error",
-                          desc: 'What do you wont to do?',
-                          btnCancelText: "delete",
-                          btnOkText: "update",
-                          btnCancelOnPress: () async {
-                            await FirebaseFirestore.instance
-                                .collection("first-aids")
-                                .doc(firstaidsdata[i].id)
-                                .delete();
-                            Navigator.push(
+                return Expanded(
+                  child: Container(
+                    child: InkWell(
+                      onLongPress: () {
+                        if (FirebaseAuth.instance.currentUser != null) {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.warning,
+                            animType: AnimType.rightSlide,
+                            title: "error",
+                            desc: 'What do you wont to do?',
+                            btnCancelText: "delete",
+                            btnOkText: "update",
+                            btnCancelOnPress: () async {
+                              await FirebaseFirestore.instance
+                                  .collection("first-aids")
+                                  .doc(widget.firstaidid)
+                                  .collection("explanation")
+                                  .doc(firstaidsdata[i].id)
+                                  .delete();
+                              Navigator.pop(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DataStateOfExplanations(
-                                          firstaidid: '',
-                                        )));
-                          },
-                          btnOkOnPress: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Edit_First_Aids(
-                                        docid: '',
-                                        oldname: firstaidsdata[i]['name'])));
-                          },
-                        ).show();
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Column(children: [
-                          Text(
-                            "${firstaidsdata[i]['explanation']}",
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                          if (firstaidsdata[i]['url'] != "none")
-                            Image.network(firstaidsdata[i]['url']),
-                        ]),
+                              );
+                            },
+                            btnOkOnPress: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Edit_Explanation(
+                                          explanationdocid: firstaidsdata[i].id,
+                                          firstaidid: widget.firstaidid,
+                                          value: firstaidsdata[i]
+                                              ['explanation'])));
+                            },
+                          ).show();
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: Column(children: [
+                            Text(
+                              "${firstaidsdata[i]['explanation']}",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            ),
+                            if (firstaidsdata[i]['url'] != "none")
+                              Image.network(firstaidsdata[i]['url']),
+                          ]),
+                        ),
                       ),
                     ),
                   ),

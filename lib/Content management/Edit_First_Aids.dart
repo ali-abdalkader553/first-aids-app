@@ -59,7 +59,7 @@ class _Edit_First_AidsState extends State<Edit_First_Aids> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: CustomTextField(
-              hittext: "Enter name of state",
+              hittext: "Enter the new name of state",
               addconroller: name,
             ),
           ),
