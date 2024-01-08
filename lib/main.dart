@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:first_aids_app_pro1/Content%20management/Add_Diseases.dart';
 import 'package:first_aids_app_pro1/Content%20management/Add_First_Aids.dart';
 import 'package:first_aids_app_pro1/Content%20management/Add_Number.dart';
 import 'package:first_aids_app_pro1/Content%20management/Add_explanation.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         "addexplanation": (context) => Add_Explanation(
               docid: 'widget.docid',
             ),
+        "adddiseases": (context) => Add_Diseases(),
       },
     );
   }
