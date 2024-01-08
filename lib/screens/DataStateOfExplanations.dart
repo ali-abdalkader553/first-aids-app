@@ -112,7 +112,7 @@ class _DataStateOfExplanations extends State<DataStateOfExplanations> {
                             Text(
                               "${firstaidsdata[i]['explanation']}",
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
+                                  TextStyle(color: Colors.black, fontSize: 15),
                             ),
                             if (firstaidsdata[i]['url'] != "none")
                               Image.network(firstaidsdata[i]['url']),

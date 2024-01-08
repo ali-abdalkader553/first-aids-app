@@ -49,8 +49,8 @@ class _Add_ExplanationState extends State<Add_Explanation> {
         await picker.pickImage(source: ImageSource.gallery);
     if (imagegallery != null) {
       file = File(imagegallery!.path);
-      var Imagename = basename(imagegallery!.path);
-      var refStorge = FirebaseStorage.instance.ref("images").child(Imagename);
+      var imagename = basename(imagegallery!.path);
+      var refStorge = FirebaseStorage.instance.ref("images").child(imagename);
       await refStorge.putFile(file!);
       url = await refStorge.getDownloadURL();
     }
