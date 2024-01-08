@@ -2,9 +2,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_aids_app_pro1/Content%20management/Edit_Diseases.dart';
+import 'package:first_aids_app_pro1/screens/Diseases_Explanations.dart';
 import 'package:flutter/material.dart';
-
-import 'DataStateOfExplanations.dart';
 
 class CommonDiseasesPage extends StatefulWidget {
   const CommonDiseasesPage({Key? key}) : super(key: key);
@@ -126,7 +125,7 @@ class _CommonDiseasesPage extends State<CommonDiseasesPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  DataStateOfExplanations(firstaidid: d.id)));
+                                  Diseases_Explanations(diseasesid: d.id)));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
