@@ -28,7 +28,9 @@ class MyApp extends StatelessWidget {
         "addexplanation": (context) => Add_Explanation(
               docid: 'widget.docid',
             ),
-        "adddiseases": (context) => Add_Diseases(),
+        "adddiseases": (context) => Add_Diseases(
+              docid: 'widget.diseasesid',
+            ),
       },
     );
   }

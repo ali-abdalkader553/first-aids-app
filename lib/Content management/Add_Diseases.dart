@@ -4,7 +4,7 @@ import 'package:first_aids_app_pro1/Content%20management/CustomTextField.dart';
 import 'package:flutter/material.dart';
 
 class Add_Diseases extends StatefulWidget {
-  const Add_Diseases({Key? key}) : super(key: key);
+  const Add_Diseases({Key? key, required String docid}) : super(key: key);
 
   @override
   State<Add_Diseases> createState() => _Add_Diseases();
