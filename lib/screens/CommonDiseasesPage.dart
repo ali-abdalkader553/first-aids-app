@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_aids_app_pro1/Content%20management/Edit_First_Aids.dart';
+import 'package:first_aids_app_pro1/Content%20management/Edit_Diseases.dart';
 import 'package:flutter/material.dart';
 
 import 'DataStateOfExplanations.dart';
@@ -115,7 +115,7 @@ class _CommonDiseasesPage extends State<CommonDiseasesPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Edit_First_Aids(
+                                    builder: (context) => Edit_Diseases(
                                         docid: d.id, oldname: d['name'])));
                           },
                         ).show();
