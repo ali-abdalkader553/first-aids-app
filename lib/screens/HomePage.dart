@@ -131,7 +131,7 @@ class HomePage extends StatelessWidget {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.purple,
+                      color: Colors.red,
                       borderRadius: BorderRadius.circular(10)),
                 ),
               ),
