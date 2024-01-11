@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_aids_app_pro1/screens/LoginPage.dart';
+import 'package:first_aids_app_pro1/screens/chat_page.dart';
 import 'package:flutter/material.dart';
 
 import 'CommonDiseasesPage.dart';
@@ -125,7 +126,7 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
+                    MaterialPageRoute(builder: (context) => Chat_Page()),
                   );
                 },
                 child: Container(
