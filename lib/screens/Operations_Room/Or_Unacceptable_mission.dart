@@ -17,9 +17,16 @@ class _UnAcceptableMissions extends State<UnAcceptableMissions> {
 
   unacceptes() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection("or-mission-rejected-information")
+        .collection("mission-information")
         .get();
-    unacceptables.addAll(querySnapshot.docs);
+
+    for (var ele in querySnapshot.docs) {
+      var e = ele.data() as Map;
+
+      if (e['status'] == 'rejected') {
+        unacceptables.add(ele);
+      }
+    }
 
     isloading = false;
 

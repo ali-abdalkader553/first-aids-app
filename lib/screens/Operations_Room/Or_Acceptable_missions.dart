@@ -17,9 +17,15 @@ class _AcceptableMissions extends State<AcceptableMissions> {
 
   acceptes() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection("or-mission-information")
+        .collection("mission-information")
         .get();
-    acceptables.addAll(querySnapshot.docs);
+
+    for (var ele in querySnapshot.docs) {
+      var e = ele.data() as Map;
+      if (e['status'] == 'accepted') {
+        acceptables.add(ele);
+      }
+    }
 
     isloading = false;
 
