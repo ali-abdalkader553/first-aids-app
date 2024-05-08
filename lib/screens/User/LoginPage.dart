@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../auth/auth_helper.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,7 +14,7 @@ class _LoginScreenstate extends State<LoginPage> {
   final _passwordControlar = TextEditingController();
 
   Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    await AuthHelper.signIn(
       email: _emailControlar.text.trim(),
       password: _passwordControlar.text.trim(),
     );
