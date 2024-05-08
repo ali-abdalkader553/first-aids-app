@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CoapproveIncMissInformation extends StatefulWidget {
-  const CoapproveIncMissInformation({
+  String docId;
+  CoapproveIncMissInformation({
+    required this.docId,
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +20,7 @@ class _CoapproveIncMissInformation extends State<CoapproveIncMissInformation> {
 
   ApproveData() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection("or-mission-information")
+        .collection("mission-information")
         .get();
     coincomingmissionsdata.addAll(querySnapshot.docs);
 

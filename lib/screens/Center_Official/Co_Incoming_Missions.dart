@@ -18,10 +18,18 @@ class _CoIncomingMissionsState extends State<CoIncomingMissions> {
   bool isloading = true;
   getData() async {
     QuerySnapshot querySnapshot = (await FirebaseFirestore.instance
-        .collection("or-mission-information")
+        .collection("mission-information")
         .get());
+
     coincomingmissions = [];
-    coincomingmissions.addAll(querySnapshot.docs);
+
+    for (var ele in querySnapshot.docs) {
+      print(ele.data());
+      var e = ele.data() as Map;
+      if (e['status'] == 'accepted') {
+        coincomingmissions.add(ele);
+      }
+    }
 
     isloading = false;
 
@@ -82,10 +90,12 @@ class _CoIncomingMissionsState extends State<CoIncomingMissions> {
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CoapproveIncMissInformation()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CoapproveIncMissInformation(docId: e.id),
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
