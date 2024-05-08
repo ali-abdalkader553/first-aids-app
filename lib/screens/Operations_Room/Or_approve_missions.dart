@@ -14,15 +14,20 @@ class OrApproveTheMisssion extends StatefulWidget {
 }
 
 class _OrApproveTheMisssion extends State<OrApproveTheMisssion> {
-  List<QueryDocumentSnapshot> missionsdata = [];
+  late Map<String, dynamic>? missionsdata;
 
   bool isloading = true;
 
   ApproveData() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection("mission-information")
-        .get();
-    missionsdata.addAll(querySnapshot.docs);
+    var querySnapshot = (await FirebaseFirestore.instance
+            .collection("mission-information")
+            .doc(widget.approveid)
+            .get())
+        .data();
+
+    missionsdata = (querySnapshot);
+
+    missionsdata ??= {};
 
     isloading = false;
 
@@ -48,7 +53,7 @@ class _OrApproveTheMisssion extends State<OrApproveTheMisssion> {
               child: CircularProgressIndicator(),
             )
           : GridView.builder(
-              itemCount: missionsdata.length,
+              itemCount: 1,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1, mainAxisExtent: 200),
               itemBuilder: (context, i) {
@@ -67,62 +72,62 @@ class _OrApproveTheMisssion extends State<OrApproveTheMisssion> {
                           children: [
                             Text(
                               'رقم المريض:'
-                              "${missionsdata[i]['number_of_mission_requester']}",
+                              "${missionsdata!['number_of_mission_requester']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['name_of_the_mission_requester']}",
+                              "${missionsdata!['name_of_the_mission_requester']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['patiant_name']}",
+                              "${missionsdata!['patiant_name']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['age']}",
+                              "${missionsdata!['age']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['awareness']}",
+                              "${missionsdata!['awareness']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['breathing']}",
+                              "${missionsdata!['breathing']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['building_number']}",
+                              "${missionsdata!['building_number']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['details']}",
+                              "${missionsdata!['details']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['from']}",
+                              "${missionsdata!['from']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['to']}",
+                              "${missionsdata!['to']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['history_of_illness']}",
+                              "${missionsdata!['history_of_illness']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),
                             Text(
-                              "${missionsdata[i]['sex']}",
+                              "${missionsdata!['sex']}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 10),
                             ),

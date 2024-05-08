@@ -3,10 +3,10 @@ import 'package:first_aids_app_pro1/Content%20management/User/Add_Diseases.dart'
 import 'package:first_aids_app_pro1/Content%20management/User/Add_First_Aids.dart';
 import 'package:first_aids_app_pro1/Content%20management/User/Add_Number.dart';
 import 'package:first_aids_app_pro1/Content%20management/User/Add_explanation.dart';
-import 'package:first_aids_app_pro1/screens/Center_Official/Co_Home.dart';
 import 'package:first_aids_app_pro1/screens/Operations_Room/Add_Or_Information.dart';
 import 'package:first_aids_app_pro1/screens/Operations_Room/OR_Add_Mission.dart';
 import 'package:first_aids_app_pro1/screens/Operations_Room/Or_Choose_Center.dart';
+import 'package:first_aids_app_pro1/screens/Operations_Room/Or_Home.dart';
 import 'package:first_aids_app_pro1/screens/Team_Leader/Patient_info.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CoHomeScreen(),
+      home: HomeOrRoom(),
       routes: {
         "addfirstaid": (context) => Add_First_Aids(),
         "addnumber": (context) => Add_Number(),
