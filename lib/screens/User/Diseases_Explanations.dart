@@ -1,8 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_aids_app_pro1/Content%20management/Add_Diseases_Explanations.dart';
-import 'package:first_aids_app_pro1/Content%20management/Edit_Diseases_Explanations.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/Add_Diseases_Explanations.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/Edit_Diseases_Explanations.dart';
 import 'package:flutter/material.dart';
 
 class Diseases_Explanations extends StatefulWidget {

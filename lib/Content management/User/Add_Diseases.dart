@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButton.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomTextField.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButton.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomTextField.dart';
 import 'package:flutter/material.dart';
 
-class Edit_Diseases extends StatefulWidget {
-  final String docid;
-  final String oldname;
-  const Edit_Diseases({Key? key, required this.docid, required this.oldname})
-      : super(key: key);
+class Add_Diseases extends StatefulWidget {
+  const Add_Diseases({Key? key, required String docid}) : super(key: key);
 
   @override
-  State<Edit_Diseases> createState() => _Edit_Diseases();
+  State<Add_Diseases> createState() => _Add_Diseases();
 }
 
-class _Edit_Diseases extends State<Edit_Diseases> {
+class _Add_Diseases extends State<Add_Diseases> {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   TextEditingController name = TextEditingController();
@@ -21,10 +18,10 @@ class _Edit_Diseases extends State<Edit_Diseases> {
   CollectionReference diseases =
       FirebaseFirestore.instance.collection("common-diseases");
 
-  editdiseases() async {
+  adddiseases() async {
     if (formState.currentState!.validate()) {
       try {
-        await diseases.doc(widget.docid).update({
+        await diseases.add({
           "name": name.text,
         });
         Navigator.pop(context);
@@ -42,13 +39,6 @@ class _Edit_Diseases extends State<Edit_Diseases> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    name.text = widget.oldname;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white70,
@@ -59,15 +49,15 @@ class _Edit_Diseases extends State<Edit_Diseases> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: CustomTextField(
-              hittext: "Enter the new name of state",
+              hittext: "Enter name of diseases",
               addconroller: name,
             ),
           ),
           CustomButton(
               onPressed: () {
-                editdiseases();
+                adddiseases();
               },
-              title: "save  ")
+              title: "Add")
         ]),
       ),
     );

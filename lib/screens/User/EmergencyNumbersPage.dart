@@ -1,30 +1,26 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_aids_app_pro1/Content%20management/Edit_Diseases.dart';
-import 'package:first_aids_app_pro1/screens/Diseases_Explanations.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/Edit_Number.dart';
 import 'package:flutter/material.dart';
 
-class CommonDiseasesPage extends StatefulWidget {
-  const CommonDiseasesPage({Key? key}) : super(key: key);
+class EmergencyNumberPage extends StatefulWidget {
+  const EmergencyNumberPage({Key? key}) : super(key: key);
 
   @override
-  State<CommonDiseasesPage> createState() => _CommonDiseasesPage();
+  State<EmergencyNumberPage> createState() => _EmergencyNumberPageState();
 }
 
-class _CommonDiseasesPage extends State<CommonDiseasesPage> {
-  List<QueryDocumentSnapshot> diseasesdata = [];
-  bool isSearchOn = false;
-
-  TextEditingController _searchController = TextEditingController();
+class _EmergencyNumberPageState extends State<EmergencyNumberPage> {
+  List<QueryDocumentSnapshot> emergencynum = [];
 
   bool isloading = true;
 
   getData() async {
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection("common-diseases").get();
-    diseasesdata = [];
-    diseasesdata.addAll(querySnapshot.docs);
+        await FirebaseFirestore.instance.collection("emergency-number").get();
+    emergencynum = [];
+    emergencynum.addAll(querySnapshot.docs);
 
     isloading = false;
 
@@ -35,9 +31,6 @@ class _CommonDiseasesPage extends State<CommonDiseasesPage> {
   void initState() {
     // TODO: implement initState
     getData();
-    _searchController.addListener(() {
-      setState(() {});
-    });
     super.initState();
   }
 
@@ -49,7 +42,7 @@ class _CommonDiseasesPage extends State<CommonDiseasesPage> {
           : FloatingActionButton(
               backgroundColor: Colors.redAccent,
               onPressed: () {
-                Navigator.of(context).pushNamed("adddiseases").whenComplete(() {
+                Navigator.of(context).pushNamed("addnumber").whenComplete(() {
                   getData();
                 });
               },
@@ -57,35 +50,20 @@ class _CommonDiseasesPage extends State<CommonDiseasesPage> {
             ),
       appBar: AppBar(
         backgroundColor: Colors.deepOrangeAccent,
-        title: isSearchOn
-            ? TextField(controller: _searchController)
-            : Text('Common Diseases'),
-        leading: IconButton(
-          onPressed: () {
-            setState(() {
-              isSearchOn = !isSearchOn;
-            });
-          },
-          icon: const Icon(Icons.search),
-        ),
+        title: const Text('Emergency Number'),
       ),
       body: isloading == true
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Wrap(
-              children: (diseasesdata.map((d) {
-                if (_searchController.text.isNotEmpty) {
-                  if (!(d['name'] as String).contains(_searchController.text)) {
-                    return const SizedBox(
-                      width: 0,
-                      height: 0,
-                    );
-                  }
-                }
+          : GridView.builder(
+              itemCount: emergencynum.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, mainAxisExtent: 200),
+              itemBuilder: (context, i) {
                 return Container(
-                  width: MediaQuery.sizeOf(context).width * 0.5,
-                  height: MediaQuery.sizeOf(context).width * 0.5,
+                  width: 200,
+                  height: 125,
                   child: InkWell(
                     onLongPress: () {
                       if (FirebaseAuth.instance.currentUser != null) {
@@ -99,52 +77,58 @@ class _CommonDiseasesPage extends State<CommonDiseasesPage> {
                           btnOkText: "update",
                           btnCancelOnPress: () async {
                             await FirebaseFirestore.instance
-                                .collection("common-diseases")
-                                .doc(d.id)
+                                .collection("emergency-number")
+                                .doc(emergencynum[i].id)
                                 .delete();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        CommonDiseasesPage()));
-                            // MaterialPageRoute(
-                            //     builder: (context) => FirstAidPage()));
+                                        EmergencyNumberPage()));
                           },
                           btnOkOnPress: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Edit_Diseases(
-                                        docid: d.id, oldname: d['name'])));
+                                    builder: (context) => Edit_Number(
+                                          docid: emergencynum[i].id,
+                                          oldname: emergencynum[i]['name'],
+                                          oldnumber: emergencynum[i]['number'],
+                                        )));
                           },
                         ).show();
                       }
                     },
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Diseases_Explanations(diseasesid: d.id)));
-                    },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
+                        width: 200,
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(
-                          child: Text(
-                            "${d['name']}",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "${emergencynum[i]['name']}",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              Text(
+                                "${emergencynum[i]['number']}",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
                   ),
                 );
-              }).toList()),
+              },
             ),
     );
   }

@@ -1,27 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButton.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomTextField.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButton.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomTextField.dart';
 import 'package:flutter/material.dart';
 
-class Add_Diseases extends StatefulWidget {
-  const Add_Diseases({Key? key, required String docid}) : super(key: key);
+class Edit_First_Aids extends StatefulWidget {
+  final String docid;
+  final String oldname;
+  const Edit_First_Aids({Key? key, required this.docid, required this.oldname})
+      : super(key: key);
 
   @override
-  State<Add_Diseases> createState() => _Add_Diseases();
+  State<Edit_First_Aids> createState() => _Edit_First_AidsState();
 }
 
-class _Add_Diseases extends State<Add_Diseases> {
+class _Edit_First_AidsState extends State<Edit_First_Aids> {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   TextEditingController name = TextEditingController();
 
-  CollectionReference diseases =
-      FirebaseFirestore.instance.collection("common-diseases");
+  CollectionReference firstaids =
+      FirebaseFirestore.instance.collection("first-aids");
 
-  adddiseases() async {
+  editfirstaids() async {
     if (formState.currentState!.validate()) {
       try {
-        await diseases.add({
+        await firstaids.doc(widget.docid).update({
           "name": name.text,
         });
         Navigator.pop(context);
@@ -39,6 +42,13 @@ class _Add_Diseases extends State<Add_Diseases> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    name.text = widget.oldname;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white70,
@@ -49,15 +59,15 @@ class _Add_Diseases extends State<Add_Diseases> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: CustomTextField(
-              hittext: "Enter name of diseases",
+              hittext: "Enter the new name of state",
               addconroller: name,
             ),
           ),
           CustomButton(
               onPressed: () {
-                adddiseases();
+                editfirstaids();
               },
-              title: "Add")
+              title: "save  ")
         ]),
       ),
     );

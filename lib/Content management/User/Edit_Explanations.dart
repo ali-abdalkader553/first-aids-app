@@ -2,23 +2,31 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButton.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButtonUpload.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomTextField.dart';
-import 'package:first_aids_app_pro1/screens/FirstAidsPage.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButton.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButtonUpload.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomTextField.dart';
+import 'package:first_aids_app_pro1/screens/User/DataStateOfExplanations.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
-class Add_Explanation extends StatefulWidget {
-  final String docid;
-  const Add_Explanation({Key? key, required this.docid}) : super(key: key);
+class Edit_Explanation extends StatefulWidget {
+  final String explanationdocid;
+  final String firstaidid;
+  final String value;
+
+  const Edit_Explanation(
+      {Key? key,
+      required this.explanationdocid,
+      required this.firstaidid,
+      required this.value})
+      : super(key: key);
 
   @override
-  State<Add_Explanation> createState() => _Add_ExplanationState();
+  State<Edit_Explanation> createState() => _Edit_Explanation();
 }
 
-class _Add_ExplanationState extends State<Add_Explanation> {
+class _Edit_Explanation extends State<Edit_Explanation> {
   File? file;
   String? url;
 
@@ -26,17 +34,23 @@ class _Add_ExplanationState extends State<Add_Explanation> {
 
   TextEditingController explanation = TextEditingController();
 
-  addexplanation(context) async {
+  editexplanation(context) async {
     CollectionReference firstaids = FirebaseFirestore.instance
         .collection("first-aids")
-        .doc(widget.docid)
+        .doc(widget.firstaidid)
         .collection("explanation");
     if (formState.currentState!.validate()) {
       try {
+        setState(() {});
+
         await firstaids
-            .add({"explanation": explanation.text, "url": url ?? "none"});
+            .doc(widget.explanationdocid)
+            .update({"explanation": explanation.text, "url": url ?? "none"});
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => FirstAidPage()));
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DataStateOfExplanations(firstaidid: widget.firstaidid)));
       } catch (e) {
         print("Error  $e");
       }
@@ -49,12 +63,19 @@ class _Add_ExplanationState extends State<Add_Explanation> {
         await picker.pickImage(source: ImageSource.gallery);
     if (imagegallery != null) {
       file = File(imagegallery!.path);
-      var imagename = basename(imagegallery!.path);
-      var refStorge = FirebaseStorage.instance.ref("images").child(imagename);
+      var Imagename = basename(imagegallery!.path);
+      var refStorge = FirebaseStorage.instance.ref("images").child(Imagename);
       await refStorge.putFile(file!);
       url = await refStorge.getDownloadURL();
     }
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    explanation.text = widget.value;
   }
 
   @override
@@ -87,9 +108,9 @@ class _Add_ExplanationState extends State<Add_Explanation> {
               isSelected: url == null ? false : true),
           CustomButton(
               onPressed: () {
-                addexplanation(context);
+                editexplanation(context);
               },
-              title: "Add")
+              title: "Edit")
         ]),
       ),
     );

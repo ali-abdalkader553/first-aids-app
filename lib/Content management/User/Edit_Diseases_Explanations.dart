@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButton.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButtonUpload.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomTextField.dart';
-import 'package:first_aids_app_pro1/screens/CommonDiseasesPage.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButton.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButtonUpload.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomTextField.dart';
+import 'package:first_aids_app_pro1/screens/User/CommonDiseasesPage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';

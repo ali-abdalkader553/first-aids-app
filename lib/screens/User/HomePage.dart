@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_aids_app_pro1/screens/LoginPage.dart';
-import 'package:first_aids_app_pro1/screens/chat_page.dart';
+import 'package:first_aids_app_pro1/screens/User/chat_page.dart';
 import 'package:flutter/material.dart';
 
 import 'CommonDiseasesPage.dart';
 import 'EmergencyNumbersPage.dart';
 import 'FirstAidsPage.dart';
+import 'UserInformation.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -19,13 +19,13 @@ class HomePage extends StatelessWidget {
         title: const Text('Home Page'),
         backgroundColor: Colors.deepOrangeAccent,
         actions: [
-          IconButton(
-              color: Colors.deepOrangeAccent,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
-              },
-              icon: const Icon(Icons.account_box)),
+          //IconButton(
+          // color: Colors.deepOrangeAccent,
+          //onPressed: () {
+          //Navigator.push(context,
+          //  MaterialPageRoute(builder: (context) => const LoginPage()));
+          //},
+          // icon: const Icon(Icons.account_box)),
           SizedBox(width: 5),
           IconButton(
               color: Colors.deepOrangeAccent,
@@ -133,6 +133,36 @@ class HomePage extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Text(
+                      'GPT Chat',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              width: 250,
+              height: 50,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => InformationUser()),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Text(
+                      'طلب مهمة اسعافية',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
             )

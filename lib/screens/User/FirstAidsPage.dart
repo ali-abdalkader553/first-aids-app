@@ -1,9 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_aids_app_pro1/Content%20management/Edit_First_Aids.dart';
-import 'package:first_aids_app_pro1/screens/DataStateOfExplanations.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/Edit_First_Aids.dart';
 import 'package:flutter/material.dart';
+
+import 'DataStateOfExplanations.dart';
 
 class FirstAidPage extends StatefulWidget {
   const FirstAidPage({Key? key}) : super(key: key);

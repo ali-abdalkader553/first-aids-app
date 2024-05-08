@@ -2,31 +2,24 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButton.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButtonUpload.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomTextField.dart';
-import 'package:first_aids_app_pro1/screens/DataStateOfExplanations.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButton.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButtonUpload.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomTextField.dart';
+import 'package:first_aids_app_pro1/screens/User/CommonDiseasesPage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
-class Edit_Explanation extends StatefulWidget {
-  final String explanationdocid;
-  final String firstaidid;
-  final String value;
-
-  const Edit_Explanation(
-      {Key? key,
-      required this.explanationdocid,
-      required this.firstaidid,
-      required this.value})
+class Add_Diseases_Explanation extends StatefulWidget {
+  final String docid;
+  const Add_Diseases_Explanation({Key? key, required this.docid})
       : super(key: key);
 
   @override
-  State<Edit_Explanation> createState() => _Edit_Explanation();
+  State<Add_Diseases_Explanation> createState() => _Add_Diseases_Explanation();
 }
 
-class _Edit_Explanation extends State<Edit_Explanation> {
+class _Add_Diseases_Explanation extends State<Add_Diseases_Explanation> {
   File? file;
   String? url;
 
@@ -34,23 +27,17 @@ class _Edit_Explanation extends State<Edit_Explanation> {
 
   TextEditingController explanation = TextEditingController();
 
-  editexplanation(context) async {
-    CollectionReference firstaids = FirebaseFirestore.instance
-        .collection("first-aids")
-        .doc(widget.firstaidid)
+  adddiseasesexplanation(context) async {
+    CollectionReference diseases = FirebaseFirestore.instance
+        .collection("common-diseases")
+        .doc(widget.docid)
         .collection("explanation");
     if (formState.currentState!.validate()) {
       try {
-        setState(() {});
-
-        await firstaids
-            .doc(widget.explanationdocid)
-            .update({"explanation": explanation.text, "url": url ?? "none"});
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    DataStateOfExplanations(firstaidid: widget.firstaidid)));
+        await diseases
+            .add({"explanation": explanation.text, "url": url ?? "none"});
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => CommonDiseasesPage()));
       } catch (e) {
         print("Error  $e");
       }
@@ -63,19 +50,12 @@ class _Edit_Explanation extends State<Edit_Explanation> {
         await picker.pickImage(source: ImageSource.gallery);
     if (imagegallery != null) {
       file = File(imagegallery!.path);
-      var Imagename = basename(imagegallery!.path);
-      var refStorge = FirebaseStorage.instance.ref("images").child(Imagename);
+      var imagename = basename(imagegallery!.path);
+      var refStorge = FirebaseStorage.instance.ref("images").child(imagename);
       await refStorge.putFile(file!);
       url = await refStorge.getDownloadURL();
     }
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    explanation.text = widget.value;
   }
 
   @override
@@ -96,7 +76,7 @@ class _Edit_Explanation extends State<Edit_Explanation> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: CustomTextField(
-              hittext: "Enter the explanation",
+              hittext: "Enter the disease explanation",
               addconroller: explanation,
             ),
           ),
@@ -108,9 +88,9 @@ class _Edit_Explanation extends State<Edit_Explanation> {
               isSelected: url == null ? false : true),
           CustomButton(
               onPressed: () {
-                editexplanation(context);
+                adddiseasesexplanation(context);
               },
-              title: "Edit")
+              title: "Add")
         ]),
       ),
     );

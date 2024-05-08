@@ -2,24 +2,23 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButton.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButtonUpload.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomTextField.dart';
-import 'package:first_aids_app_pro1/screens/CommonDiseasesPage.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButton.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButtonUpload.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomTextField.dart';
+import 'package:first_aids_app_pro1/screens/User/FirstAidsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
-class Add_Diseases_Explanation extends StatefulWidget {
+class Add_Explanation extends StatefulWidget {
   final String docid;
-  const Add_Diseases_Explanation({Key? key, required this.docid})
-      : super(key: key);
+  const Add_Explanation({Key? key, required this.docid}) : super(key: key);
 
   @override
-  State<Add_Diseases_Explanation> createState() => _Add_Diseases_Explanation();
+  State<Add_Explanation> createState() => _Add_ExplanationState();
 }
 
-class _Add_Diseases_Explanation extends State<Add_Diseases_Explanation> {
+class _Add_ExplanationState extends State<Add_Explanation> {
   File? file;
   String? url;
 
@@ -27,17 +26,18 @@ class _Add_Diseases_Explanation extends State<Add_Diseases_Explanation> {
 
   TextEditingController explanation = TextEditingController();
 
-  adddiseasesexplanation(context) async {
-    CollectionReference diseases = FirebaseFirestore.instance
-        .collection("common-diseases")
+  addexplanation(context) async {
+    CollectionReference firstaids = FirebaseFirestore.instance
+        .collection("first-aids")
         .doc(widget.docid)
         .collection("explanation");
     if (formState.currentState!.validate()) {
       try {
-        await diseases
+        await firstaids
             .add({"explanation": explanation.text, "url": url ?? "none"});
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => CommonDiseasesPage()));
+
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => FirstAidPage()));
       } catch (e) {
         print("Error  $e");
       }
@@ -76,19 +76,20 @@ class _Add_Diseases_Explanation extends State<Add_Diseases_Explanation> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: CustomTextField(
-              hittext: "Enter the disease explanation",
+              hittext: "Enter the explanation",
               addconroller: explanation,
             ),
           ),
           CustomButtonUpload(
-              onPressed: () async {
-                await getImage();
-              },
-              title: "Upload image",
-              isSelected: url == null ? false : true),
+            title: "Upload image",
+            isSelected: url == null ? false : true,
+            onPressed: () async {
+              await getImage();
+            },
+          ),
           CustomButton(
               onPressed: () {
-                adddiseasesexplanation(context);
+                addexplanation(context);
               },
               title: "Add")
         ]),

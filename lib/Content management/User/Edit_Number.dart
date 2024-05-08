@@ -1,34 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomButton.dart';
-import 'package:first_aids_app_pro1/Content%20management/CustomTextField.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomButton.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/CustomTextField.dart';
 import 'package:flutter/material.dart';
 
-class Add_Number extends StatefulWidget {
-  const Add_Number({Key? key}) : super(key: key);
+class Edit_Number extends StatefulWidget {
+  final String docid;
+  final String oldname;
+  final String oldnumber;
+  const Edit_Number(
+      {Key? key,
+      required this.docid,
+      required this.oldname,
+      required this.oldnumber})
+      : super(key: key);
 
   @override
-  State<Add_Number> createState() => _Add_Number_AidsState();
+  State<Edit_Number> createState() => _Edit_Number();
 }
 
-class _Add_Number_AidsState extends State<Add_Number> {
+class _Edit_Number extends State<Edit_Number> {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   TextEditingController name = TextEditingController();
   TextEditingController number = TextEditingController();
 
-  CollectionReference emergencynumber =
+  CollectionReference firstaids =
       FirebaseFirestore.instance.collection("emergency-number");
 
-  addnumber() async {
+  editnumber() async {
     if (formState.currentState!.validate()) {
       try {
-        await emergencynumber.add({
+        await firstaids.doc(widget.docid).update({
           "name": name.text,
           "number": number.text,
         });
-        Navigator.pop(
-          context,
-        );
+        Navigator.pop(context);
       } catch (e) {
         print("Error  $e");
       }
@@ -44,6 +50,14 @@ class _Add_Number_AidsState extends State<Add_Number> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    name.text = widget.oldname;
+    number.text = widget.oldnumber;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white70,
@@ -54,7 +68,7 @@ class _Add_Number_AidsState extends State<Add_Number> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: CustomTextField(
-              hittext: "Enter the name ",
+              hittext: "Enter the new name of state",
               addconroller: name,
             ),
           ),
@@ -64,15 +78,15 @@ class _Add_Number_AidsState extends State<Add_Number> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: CustomTextField(
-              hittext: "Enter the number",
+              hittext: "Enter the new name of state",
               addconroller: number,
             ),
           ),
           CustomButton(
               onPressed: () {
-                addnumber();
+                editnumber();
               },
-              title: "Add")
+              title: "edit")
         ]),
       ),
     );

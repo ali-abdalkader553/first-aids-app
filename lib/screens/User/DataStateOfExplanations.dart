@@ -1,10 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_aids_app_pro1/Content%20management/Edit_Explanations.dart';
+import 'package:first_aids_app_pro1/Content%20management/User/Edit_Explanations.dart';
 import 'package:flutter/material.dart';
 
-import '../Content management/Add_explanation.dart';
+import '../../Content management/User/Add_explanation.dart';
 
 class DataStateOfExplanations extends StatefulWidget {
   final String firstaidid;
@@ -115,7 +115,11 @@ class _DataStateOfExplanations extends State<DataStateOfExplanations> {
                                   TextStyle(color: Colors.black, fontSize: 15),
                             ),
                             if (firstaidsdata[i]['url'] != "none")
-                              Image.network(firstaidsdata[i]['url']),
+                              Container(
+                                  height: 150,
+                                  width: 200,
+                                  child:
+                                      Image.network(firstaidsdata[i]['url'])),
                           ]),
                         ),
                       ),
