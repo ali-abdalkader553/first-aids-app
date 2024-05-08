@@ -8,7 +8,7 @@ import 'package:first_aids_app_pro1/screens/Operations_Room/Add_Or_Information.d
 import 'package:first_aids_app_pro1/screens/Operations_Room/OR_Add_Mission.dart';
 import 'package:first_aids_app_pro1/screens/Operations_Room/Or_Choose_Center.dart';
 import 'package:first_aids_app_pro1/screens/Team_Leader/Patient_info.dart';
-import 'package:flutter/materialatient_info.dart';
+import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
