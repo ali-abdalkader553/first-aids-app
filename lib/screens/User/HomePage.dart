@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_aids_app_pro1/screens/User/chat_page.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'CommonDiseasesPage.dart';
 import 'EmergencyNumbersPage.dart';
 import 'FirstAidsPage.dart';
+import 'LoginPage.dart';
 import 'UserInformation.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,16 +22,16 @@ class HomePage extends StatelessWidget {
         title: const Text('Home Page'),
         backgroundColor: Colors.deepOrangeAccent,
         actions: [
-          //IconButton(
-          // color: Colors.deepOrangeAccent,
-          //onPressed: () {
-          //Navigator.push(context,
-          //  MaterialPageRoute(builder: (context) => const LoginPage()));
-          //},
-          // icon: const Icon(Icons.account_box)),
+          IconButton(
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
+              icon: const Icon(Icons.account_box)),
           SizedBox(width: 5),
           IconButton(
-              color: Colors.deepOrangeAccent,
+              color: Colors.white,
               onPressed: () {
                 signout();
                 Navigator.push(context,

@@ -44,34 +44,34 @@ enum UserType {
   }
 }
 
-class User {
+class AuthUser {
   final String id;
   final String email;
   final String notificationToken;
   final UserType userType;
 
-  static User? instance;
+  static AuthUser? instance;
 
-  User._(
+  AuthUser._(
     this.id,
     this.email,
     this.notificationToken,
     this.userType,
   );
 
-  factory User._update({
+  factory AuthUser._update({
     required String id,
     required String email,
     required String notificationToken,
     required UserType userType,
   }) {
-    instance = User._(id, email, notificationToken, userType);
-    return User._(id, email, notificationToken, userType);
+    instance = AuthUser._(id, email, notificationToken, userType);
+    return AuthUser._(id, email, notificationToken, userType);
   }
 }
 
 class AuthHelper {
-  static Future<User> signIn({
+  static Future<AuthUser> signIn({
     required String email,
     required String password,
   }) async {
@@ -100,7 +100,7 @@ class AuthHelper {
 
     fireStoreUser ??= {};
 
-    return User._update(
+    return AuthUser._update(
       id: fireStoreUser['id'],
       email: fireStoreUser['email'],
       notificationToken: fireStoreUser['notificationToken'],
@@ -108,7 +108,7 @@ class AuthHelper {
     );
   }
 
-  static Future<User> reigister({
+  static Future<AuthUser> reigister({
     required String email,
     required String password,
   }) async {
@@ -130,7 +130,7 @@ class AuthHelper {
       'notificationToken': token,
     });
 
-    return User._update(
+    return AuthUser._update(
       id: user.uid,
       email: email,
       notificationToken: token,
