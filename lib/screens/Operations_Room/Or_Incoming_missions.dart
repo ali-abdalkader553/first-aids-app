@@ -18,11 +18,22 @@ class _OrIncomingMissionState extends State<OrIncomingMission> {
   bool isloading = true;
 
   getData() async {
+    setState(() {
+      isloading = true;
+    });
+
     QuerySnapshot querySnapshot = (await FirebaseFirestore.instance
         .collection("mission-information")
         .get());
     incomingmissions = [];
-    incomingmissions.addAll(querySnapshot.docs);
+
+    for (var ele in querySnapshot.docs) {
+      print(ele.data());
+      var e = ele.data() as Map;
+      if (e['status'] == 'pending' || e['status'] == null) {
+        incomingmissions.add(ele);
+      }
+    }
 
     isloading = false;
 
@@ -71,16 +82,20 @@ class _OrIncomingMissionState extends State<OrIncomingMission> {
                     );
                   }
                 }
-                return Container(
+                return SizedBox(
                   height: MediaQuery.sizeOf(context).width * 0.2,
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OrApproveTheMisssion(
-                                    approveid: e.id,
-                                  )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrApproveTheMisssion(
+                            approveid: e.id,
+                          ),
+                        ),
+                      ).whenComplete(() {
+                        getData();
+                      });
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
