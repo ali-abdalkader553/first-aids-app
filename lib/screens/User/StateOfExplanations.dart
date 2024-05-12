@@ -1,10 +1,10 @@
-/*import 'package:first_aids_app_pro1/screens/DataStateOfExplanations.dart';
-import 'package:flutter/material.dart';
+//import 'package:first_aids_app_pro1/screens/DataStateOfExplanations.dart';
+//import 'package:first_aids_app_pro1/screens/User/DataStateOfExplanations.dart';
+//import 'package:flutter/material.dart';
 
-import 'DiseasesExplanations.dart';
+//import 'DiseasesExplanations.dart';
 
-
-
+/*
 
 class StateOfExplanations extends StatelessWidget {
   const StateOfExplanations({Key? key}) : super(key: key);

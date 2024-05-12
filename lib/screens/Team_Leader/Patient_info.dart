@@ -170,7 +170,7 @@ class _patientinfo extends State<patientinfo> {
                 ),
                 buildTextFormFiled(
                   onTap: () {},
-                  text: TextInputType.number,
+                  text: TextInputType.text,
                   label: 'الجنس',
                   validat: (String value) {
                     if (value.isEmpty) {
@@ -185,20 +185,12 @@ class _patientinfo extends State<patientinfo> {
                 ),
                 Column(
                   children: [
-                    Text(
-                      'تفاصيل الحالة',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blue,
-                      ),
-                    ),
                     SizedBox(
                       height: 20.0,
                     ),
                     buildTextFormFiled(
                       onTap: () {},
-                      text: TextInputType.text,
+                      text: TextInputType.number,
                       label: 'رقم الهاتف',
                       validat: (String value) {
                         if (value.isEmpty) {
@@ -307,7 +299,7 @@ class _patientinfo extends State<patientinfo> {
                         Expanded(
                           child: buildTextFormFiled(
                             onTap: () {},
-                            text: TextInputType.number,
+                            text: TextInputType.text,
                             label: 'تفاصيل الحالة',
                             validat: (String value) {
                               if (value.isEmpty) {
@@ -324,7 +316,7 @@ class _patientinfo extends State<patientinfo> {
                         Expanded(
                           child: buildTextFormFiled(
                             onTap: () {},
-                            text: TextInputType.number,
+                            text: TextInputType.text,
                             label: 'الاعراض والعلامات',
                             validat: (String value) {
                               if (value.isEmpty) {

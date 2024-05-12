@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_aids_app_pro1/Content%20management/User/componant_user_info.dart';
+import 'package:first_aids_app_pro1/auth/auth_helper.dart';
+import 'package:first_aids_app_pro1/auth/notification_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../../Content management/User/CustomButton.dart';
@@ -408,6 +410,11 @@ class InformationUser extends StatelessWidget {
                 CustomButton(
                     onPressed: () {
                       addmissoninfo(context);
+                      NotificationHelper.sendNotificationToAllUserType(
+                        userType: UserType.operationRoom,
+                        title: 'مهمة جديدة',
+                        body: "",
+                      );
                     },
                     title: "Add")
 

@@ -126,7 +126,7 @@ class _CoapproveIncMissInformation extends State<CoapproveIncMissInformation> {
                           FirebaseFirestore.instance
                               .collection("mission-information")
                               .doc(widget.docId)
-                              .update({'status': 'acceptedByCO'});
+                              .update({'status': 'accepted'});
                         },
                         child: Text('قبول'),
                       ),
