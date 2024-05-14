@@ -17,6 +17,7 @@ import 'package:first_aids_app_pro1/screens/Operations_Room/Or_Home.dart';
 import 'package:first_aids_app_pro1/screens/Team_Leader/Patient_info.dart';
 import 'package:first_aids_app_pro1/screens/Team_Leader/TL_Home.dart';
 import 'package:first_aids_app_pro1/screens/User/HomePage.dart';
+import 'package:first_aids_app_pro1/screens/User/LoginPage.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: TlHomescreen(),
+      home: LoginPage(),
       routes: {
         "addfirstaid": (context) => Add_First_Aids(),
         "addnumber": (context) => Add_Number(),

@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+
+import '../screens/Center_Official/Co_Home.dart';
+import '../screens/Operations_Room/Or_Home.dart';
+import '../screens/Team_Leader/TL_Home.dart';
+import '../screens/User/HomePage.dart';
 
 enum UserType {
   user,
@@ -9,8 +15,8 @@ enum UserType {
   teamLeader,
   admin;
 
-  static UserType fromString(String userType) {
-    switch (userType) {
+  static UserType fromString(String type) {
+    switch (type) {
       case 'user':
         return UserType.user;
       case 'or':
@@ -48,25 +54,44 @@ class AuthUser {
   final String id;
   final String email;
   final String notificationToken;
-  final UserType userType;
+  final UserType type;
 
-  static AuthUser? instance;
+  static late AuthUser instance;
 
   AuthUser._(
     this.id,
     this.email,
     this.notificationToken,
-    this.userType,
+    this.type,
   );
+
+  Widget get mainScreen {
+    switch (type) {
+      case UserType.user:
+        return HomePage();
+      case UserType.operationRoom:
+        return HomeOrRoom();
+      case UserType.centerOfficial:
+        return CoHomeScreen();
+      case UserType.teamLeader:
+        return TlHomescreen();
+      case UserType.admin:
+        return HomePage();
+    }
+  }
+
+  bool get isAdmin {
+    return type == UserType.admin;
+  }
 
   factory AuthUser._update({
     required String id,
     required String email,
     required String notificationToken,
-    required UserType userType,
+    required UserType type,
   }) {
-    instance = AuthUser._(id, email, notificationToken, userType);
-    return AuthUser._(id, email, notificationToken, userType);
+    instance = AuthUser._(id, email, notificationToken, type);
+    return AuthUser._(id, email, notificationToken, type);
   }
 }
 
@@ -85,13 +110,6 @@ class AuthHelper {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     String token = await messaging.getToken() ?? '';
 
-    await FirebaseFirestore.instance.collection('user').doc(user.uid).set({
-      'id': user.uid,
-      'email': email,
-      'userType': UserType.user.toString(),
-      'notificationToken': token,
-    });
-
     var fireStoreUser = (await FirebaseFirestore.instance
             .collection('user')
             .doc(user.uid)
@@ -100,15 +118,21 @@ class AuthHelper {
 
     fireStoreUser ??= {};
 
+    await FirebaseFirestore.instance.collection('user').doc(user.uid).set({
+      'id': fireStoreUser['id'],
+      'email': fireStoreUser['email'],
+      'type': UserType.fromString(fireStoreUser['type']).toString(),
+      'notificationToken': token,
+    });
+
     return AuthUser._update(
-      id: fireStoreUser['id'],
-      email: fireStoreUser['email'],
-      notificationToken: fireStoreUser['notificationToken'],
-      userType: UserType.fromString(fireStoreUser['userType']),
-    );
+        id: fireStoreUser['id'],
+        email: fireStoreUser['email'],
+        notificationToken: token,
+        type: UserType.fromString(fireStoreUser['type']));
   }
 
-  static Future<AuthUser> reigister({
+  static Future<AuthUser> register({
     required String email,
     required String password,
   }) async {
@@ -126,7 +150,7 @@ class AuthHelper {
     await FirebaseFirestore.instance.collection('user').doc(user.uid).set({
       'id': user.uid,
       'email': email,
-      'userType': UserType.user.toString(),
+      'type': UserType.user.toString(),
       'notificationToken': token,
     });
 
@@ -134,7 +158,7 @@ class AuthHelper {
       id: user.uid,
       email: email,
       notificationToken: token,
-      userType: UserType.user,
+      type: UserType.user,
     );
   }
 }

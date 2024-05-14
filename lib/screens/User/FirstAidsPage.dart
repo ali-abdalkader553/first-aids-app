@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_aids_app_pro1/Content%20management/User/Edit_First_Aids.dart';
 import 'package:flutter/material.dart';
 
+import '../../auth/auth_helper.dart';
 import 'DataStateOfExplanations.dart';
 
 class FirstAidPage extends StatefulWidget {
@@ -45,7 +46,7 @@ class _FirstAidPageState extends State<FirstAidPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FirebaseAuth.instance.currentUser == null
+      floatingActionButton: !AuthUser.instance.isAdmin
           ? null
           : FloatingActionButton(
               backgroundColor: Colors.redAccent,

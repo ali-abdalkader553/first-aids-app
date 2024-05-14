@@ -18,6 +18,25 @@ class _LoginScreenstate extends State<LoginPage> {
       email: _emailControlar.text.trim(),
       password: _passwordControlar.text.trim(),
     );
+
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return AuthUser.instance.mainScreen;
+      },
+    ));
+  }
+
+  Future register() async {
+    await AuthHelper.register(
+      email: _emailControlar.text.trim(),
+      password: _passwordControlar.text.trim(),
+    );
+
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return AuthUser.instance.mainScreen;
+      },
+    ));
   }
 
   @override
@@ -114,8 +133,6 @@ class _LoginScreenstate extends State<LoginPage> {
                 child: GestureDetector(
                   onTap: () async {
                     await signIn();
-
-                    Navigator.pop(context);
                   },
                   child: const Center(
                     child: Text(
