@@ -1,10 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_aids_app_pro1/Content%20management/User/Edit_Explanations.dart';
 import 'package:flutter/material.dart';
 
 import '../../Content management/User/Add_explanation.dart';
+import '../../auth/auth_helper.dart';
 
 class DataStateOfExplanations extends StatefulWidget {
   final String firstaidid;
@@ -44,7 +44,7 @@ class _DataStateOfExplanations extends State<DataStateOfExplanations> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FirebaseAuth.instance.currentUser == null
+      floatingActionButton: !AuthUser.instance.isAdmin
           ? null
           : FloatingActionButton(
               backgroundColor: Colors.redAccent,
@@ -72,38 +72,40 @@ class _DataStateOfExplanations extends State<DataStateOfExplanations> {
                   child: Container(
                     child: InkWell(
                       onLongPress: () {
-                        if (FirebaseAuth.instance.currentUser != null) {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.warning,
-                            animType: AnimType.rightSlide,
-                            title: "error",
-                            desc: 'What do you wont to do?',
-                            btnCancelText: "delete",
-                            btnOkText: "update",
-                            btnCancelOnPress: () async {
-                              await FirebaseFirestore.instance
-                                  .collection("first-aids")
-                                  .doc(widget.firstaidid)
-                                  .collection("explanation")
-                                  .doc(firstaidsdata[i].id)
-                                  .delete();
-                              Navigator.pop(
-                                context,
-                              );
-                            },
-                            btnOkOnPress: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Edit_Explanation(
-                                          explanationdocid: firstaidsdata[i].id,
-                                          firstaidid: widget.firstaidid,
-                                          value: firstaidsdata[i]
-                                              ['explanation'])));
-                            },
-                          ).show();
-                        }
+                        !AuthUser.instance.isAdmin
+                            ? null
+                            : AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.warning,
+                                animType: AnimType.rightSlide,
+                                title: "error",
+                                desc: 'What do you wont to do?',
+                                btnCancelText: "delete",
+                                btnOkText: "update",
+                                btnCancelOnPress: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection("first-aids")
+                                      .doc(widget.firstaidid)
+                                      .collection("explanation")
+                                      .doc(firstaidsdata[i].id)
+                                      .delete();
+                                  Navigator.pop(
+                                    context,
+                                  );
+                                },
+                                btnOkOnPress: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Edit_Explanation(
+                                                  explanationdocid:
+                                                      firstaidsdata[i].id,
+                                                  firstaidid: widget.firstaidid,
+                                                  value: firstaidsdata[i]
+                                                      ['explanation'])));
+                                },
+                              ).show();
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

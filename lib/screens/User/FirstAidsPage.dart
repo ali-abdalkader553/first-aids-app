@@ -1,6 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_aids_app_pro1/Content%20management/User/Edit_First_Aids.dart';
 import 'package:flutter/material.dart';
 
@@ -90,36 +89,36 @@ class _FirstAidPageState extends State<FirstAidPage> {
                   height: MediaQuery.sizeOf(context).width * 0.5,
                   child: InkWell(
                     onLongPress: () {
-                      if (FirebaseAuth.instance.currentUser != null) {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.warning,
-                          animType: AnimType.rightSlide,
-                          title: "error",
-                          desc: 'What do you wont to do?',
-                          btnCancelText: "delete",
-                          btnOkText: "update",
-                          btnCancelOnPress: () async {
-                            await FirebaseFirestore.instance
-                                .collection("first-aids")
-                                .doc(e.id)
-                                .delete();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FirstAidPage()));
-                            // MaterialPageRoute(
-                            //     builder: (context) => FirstAidPage()));
-                          },
-                          btnOkOnPress: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Edit_First_Aids(
-                                        docid: e.id, oldname: e['name'])));
-                          },
-                        ).show();
-                      }
+                      !AuthUser.instance.isAdmin
+                          ? null
+                          : AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.warning,
+                              animType: AnimType.rightSlide,
+                              title: "error",
+                              desc: 'What do you wont to do?',
+                              btnCancelText: "delete",
+                              btnOkText: "update",
+                              btnCancelOnPress: () async {
+                                await FirebaseFirestore.instance
+                                    .collection("first-aids")
+                                    .doc(e.id)
+                                    .delete();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FirstAidPage()));
+                                // MaterialPageRoute(
+                                //     builder: (context) => FirstAidPage()));
+                              },
+                              btnOkOnPress: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Edit_First_Aids(
+                                            docid: e.id, oldname: e['name'])));
+                              },
+                            ).show();
                     },
                     onTap: () {
                       Navigator.push(

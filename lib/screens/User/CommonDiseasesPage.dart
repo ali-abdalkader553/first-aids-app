@@ -1,9 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_aids_app_pro1/Content%20management/User/Edit_Diseases.dart';
 import 'package:first_aids_app_pro1/screens/User/Diseases_Explanations.dart';
 import 'package:flutter/material.dart';
+
+import '../../auth/auth_helper.dart';
 
 class CommonDiseasesPage extends StatefulWidget {
   const CommonDiseasesPage({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _CommonDiseasesPage extends State<CommonDiseasesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FirebaseAuth.instance.currentUser == null
+      floatingActionButton: !AuthUser.instance.isAdmin
           ? null
           : FloatingActionButton(
               backgroundColor: Colors.redAccent,
@@ -88,37 +89,37 @@ class _CommonDiseasesPage extends State<CommonDiseasesPage> {
                   height: MediaQuery.sizeOf(context).width * 0.5,
                   child: InkWell(
                     onLongPress: () {
-                      if (FirebaseAuth.instance.currentUser != null) {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.warning,
-                          animType: AnimType.rightSlide,
-                          title: "error",
-                          desc: 'What do you wont to do?',
-                          btnCancelText: "delete",
-                          btnOkText: "update",
-                          btnCancelOnPress: () async {
-                            await FirebaseFirestore.instance
-                                .collection("common-diseases")
-                                .doc(d.id)
-                                .delete();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CommonDiseasesPage()));
-                            // MaterialPageRoute(
-                            //     builder: (context) => FirstAidPage()));
-                          },
-                          btnOkOnPress: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Edit_Diseases(
-                                        docid: d.id, oldname: d['name'])));
-                          },
-                        ).show();
-                      }
+                      !AuthUser.instance.isAdmin
+                          ? null
+                          : AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.warning,
+                              animType: AnimType.rightSlide,
+                              title: "error",
+                              desc: 'What do you wont to do?',
+                              btnCancelText: "delete",
+                              btnOkText: "update",
+                              btnCancelOnPress: () async {
+                                await FirebaseFirestore.instance
+                                    .collection("common-diseases")
+                                    .doc(d.id)
+                                    .delete();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CommonDiseasesPage()));
+                                // MaterialPageRoute(
+                                //     builder: (context) => FirstAidPage()));
+                              },
+                              btnOkOnPress: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Edit_Diseases(
+                                            docid: d.id, oldname: d['name'])));
+                              },
+                            ).show();
                     },
                     onTap: () {
                       Navigator.push(

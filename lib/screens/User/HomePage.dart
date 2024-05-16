@@ -21,24 +21,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home Page'),
         backgroundColor: Colors.deepOrangeAccent,
-        actions: [
-          IconButton(
-              color: Colors.white,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
-              },
-              icon: const Icon(Icons.account_box)),
-          SizedBox(width: 5),
-          IconButton(
-              color: Colors.white,
-              onPressed: () {
-                signout();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
-              },
-              icon: const Icon(Icons.refresh)),
-        ],
       ),
       body: Center(
         child: Column(
