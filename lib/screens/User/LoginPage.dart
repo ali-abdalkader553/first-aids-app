@@ -49,7 +49,7 @@ class _LoginScreenstate extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +62,7 @@ class _LoginScreenstate extends State<LoginPage> {
               ),
             ),
             Text(
-              'اهلاً بكم في تطبيق الإسعافات الأولية',
+              'اهلاً بكم في تطبيق الهلال الأحمر',
             ),
             SizedBox(
               height: 50.0,
@@ -83,7 +83,9 @@ class _LoginScreenstate extends State<LoginPage> {
                   child: TextField(
                     controller: _emailControlar,
                     decoration: InputDecoration(
-                      border: InputBorder.none,
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                          borderRadius: BorderRadius.circular(25)),
                       labelText: 'Uesr Name',
                     ),
                   ),
@@ -100,7 +102,7 @@ class _LoginScreenstate extends State<LoginPage> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  color: Colors.white,
+                  // color: Colors.red[300],
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -110,9 +112,10 @@ class _LoginScreenstate extends State<LoginPage> {
                     controller: _passwordControlar,
                     obscureText: true,
                     decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'Password',
-                    ),
+                        labelText: 'password',
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(25))),
                   ),
                 ),
               ),
@@ -125,9 +128,10 @@ class _LoginScreenstate extends State<LoginPage> {
                 horizontal: 50.0,
               ),
               child: Container(
-                padding: EdgeInsets.all(13.0),
+                width: double.infinity,
+                padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  color: Colors.lightGreen,
+                  color: Colors.red,
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 child: GestureDetector(
@@ -151,18 +155,7 @@ class _LoginScreenstate extends State<LoginPage> {
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Register now! ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-                Text(
-                  'if you do not register ',
-                ),
-              ],
+              children: [],
             ),
           ],
         ),
