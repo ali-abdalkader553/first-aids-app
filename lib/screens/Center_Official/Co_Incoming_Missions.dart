@@ -17,6 +17,10 @@ class _CoIncomingMissionsState extends State<CoIncomingMissions> {
 
   bool isloading = true;
   getData() async {
+    setState(() {
+      isloading = true;
+    });
+
     QuerySnapshot querySnapshot = (await FirebaseFirestore.instance
         .collection("mission-information")
         .get());

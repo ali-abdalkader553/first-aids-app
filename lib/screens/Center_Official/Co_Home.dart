@@ -1,5 +1,7 @@
+import 'package:first_aids_app_pro1/screens/Center_Official/Co_Accepted_Missions.dart';
 import 'package:first_aids_app_pro1/screens/Center_Official/Co_Completed_Missions_info.dart';
 import 'package:first_aids_app_pro1/screens/Center_Official/Co_Incoming_Missions.dart';
+import 'package:first_aids_app_pro1/screens/Center_Official/Un_Accepted_Mission.dart';
 import 'package:flutter/material.dart';
 
 import '../../Content management/User/componant_user_info.dart';
@@ -10,6 +12,34 @@ class CoHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.red,
+        child: ListView(
+          children: [
+            ListTile(
+              title: const Text('الطلبات المقبولة'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CoAcceptableMissions()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('الطلبات المرفوضة'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CoUnAcceptableMissions()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: Text(
